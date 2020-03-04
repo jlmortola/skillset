@@ -26,6 +26,11 @@ userSchema.statics.isUnique = async function(option) {
   return await this.where(option).countDocuments() === 0
 }
 
+userSchema.methods.matchPassword = async function (password) {
+  console.log("bcrypt.compare(password, this.password)", bcrypt.compare(password, this.password))
+  return await bcrypt.compare(password, this.password)
+}
+
 const User = mongoose.model('User', userSchema);
 
 export default User;
