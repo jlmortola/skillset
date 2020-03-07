@@ -14,7 +14,7 @@ import resolvers from './resolvers'
   
   
   mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true});
-  
+  mongoose.set('useFindAndModify', false);
   server.applyMiddleware({app})
   
   // The `listen` method launches a web server.
