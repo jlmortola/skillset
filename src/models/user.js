@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs'
+import { ApolloError } from 'apollo-server';
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -22,12 +23,23 @@ userSchema.pre('save', function() {
   this.password = hashedPassword;
 });
 
+userSchema.pre('findOneAndUpdate', function(next) {
+  const { email, id } = this._update
+  if(!email) next()
+  User.findOne({ email }).then((doc) => {
+    if(doc && id != doc._id) {
+      next(new ApolloError('email already exists'))
+    } else {
+      next()
+    }
+  })
+})
+
 userSchema.statics.isUnique = async function(option) {
   return await this.where(option).countDocuments() === 0
 }
 
 userSchema.methods.matchPassword = async function (password) {
-  console.log("bcrypt.compare(password, this.password)", bcrypt.compare(password, this.password))
   return await bcrypt.compare(password, this.password)
 }
 
