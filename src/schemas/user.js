@@ -1,6 +1,10 @@
 import { gql } from 'apollo-server';
 
 export default gql`
+  type Message {
+    message: String!,
+  }
+
   type User {
     id: ID!,
     name: String!,
@@ -10,15 +14,15 @@ export default gql`
   }
 
   type Query {
+    me: User,
     user(id:ID): User,
     users: [User]
   }
 
   type Mutation {
-    signUp(name: String!, lastName: String!, email: String!, password: String!): User,
-    signIn(email: String!, password: String!): User,
     editUser(id: ID!, name: String, lastName: String, email: String, password: String): User!,
+    signIn(email: String!, password: String!): User,
+    signOut: Message!,
+    signUp(name: String!, lastName: String!, email: String!, password: String!): User,
   }
-
-
 `
