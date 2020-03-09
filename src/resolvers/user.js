@@ -1,29 +1,38 @@
-import { AuthenticationError, addResolveFunctionsToSchema, ApolloError } from 'apollo-server-express'
-
+import { AuthenticationError, ApolloError } from 'apollo-server-express'
 import User from '../models/user'
-import {signIn} from '../utils/auth'
+import * as Auth from '../utils/auth'
 
 export default {
   Query: {
-    user: (root, args, ctx, info) => {
+    me: async (parent, args, { req, res }, info) => {
+      if(!req.userId) return new AuthenticationError('you must signin first')
+      const user = await User.findById(req.userId)
+      return user
+    },
+    user: (parent, args, ctx, info) => {
       return  User.findOne({_id: args.id})
     },
-    users: ( root, args, ctx, info ) => {
+    users: ( parent, args, ctx, info ) => {
       return User.find({})
     }
   },
 
   Mutation: {
-    signUp: (root, args, ctx) => {
-      return User.create(args)
-    },
-    signIn: async (root, {email, password}, ctx) => {
-    
-      const user = await signIn(email, password)
+    signUp: (parent, args, { req, res }, info) => {
+      args.email = args.email.toLowerCase()
+      const user = User.create(args)
+      Auth.setCookie(user.id, res)
       return user
-
     },
-    editUser: async(root, args, ctx) => {
+    signIn: async (parent, { email, password }, { req, res }, info) => {
+      const user = await Auth.signIn(email, password, res)
+      return user
+    },
+    signOut: (parent, args, { req, res }, info) => {
+      res.clearCookie('token')
+      return { message: 'You logged out'}
+    },
+    editUser: async(parent, args, { req, res }, info) => {
       if(!args.id) return
       const user = User.findOneAndUpdate({_id: args.id}, args,  function(err, result) {
         if (err) {
