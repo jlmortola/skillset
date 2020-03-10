@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema({
     },
   },
   password: String,
+  resetToken: String,
+  resetTokenExpire: Number,
 }, {
   timestamps: true
 

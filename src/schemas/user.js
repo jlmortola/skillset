@@ -21,6 +21,7 @@ export default gql`
 
   type Mutation {
     editUser(id: ID!, name: String, lastName: String, email: String, password: String): User!,
+    requestResetPasswordToken(email: String): Message!,
     signIn(email: String!, password: String!): User,
     signOut: Message!,
     signUp(name: String!, lastName: String!, email: String!, password: String!): User,

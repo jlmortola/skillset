@@ -1,4 +1,7 @@
 import { AuthenticationError, ApolloError } from 'apollo-server-express'
+import {randomBytes} from 'crypto'
+import { promisify } from 'util'
+
 import User from '../models/user'
 import * as Auth from '../utils/auth'
 
@@ -18,6 +21,14 @@ export default {
   },
 
   Mutation: {
+    requestResetPasswordToken: async (parent, {email}, { req, res }, info) => {
+      const user = User.findOne({email})
+      if (!user) return new ApolloError('no user found')
+      const resetToken = (await promisify(randomBytes)(20)).toString('hex')
+      const resetTokenExpire = Date.now() + 360000
+      await User.findOneAndUpdate({email}, {resetToken, resetTokenExpire})
+      return { message: 'token sent'}
+    },
     signUp: (parent, args, { req, res }, info) => {
       args.email = args.email.toLowerCase()
       const user = User.create(args)
