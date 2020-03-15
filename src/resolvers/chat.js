@@ -21,5 +21,11 @@ export default {
 
       return chat
     }
+  },
+  Chat: {
+    users: async (chat, args, ctx, info) => {
+      await chat.populate('users').execPopulate()
+      return chat.users
+    }
   }
 }
