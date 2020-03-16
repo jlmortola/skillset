@@ -1,7 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import User from './user';
-import Message from './message';
-
 const { ObjectId }  = Schema.Types
 
 const chatSchema = new mongoose.Schema({

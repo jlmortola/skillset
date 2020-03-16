@@ -5,6 +5,7 @@ export default gql`
     id: ID!,
     users: [User!],
     lastMessage: Message,
+    messages: [Message]
   }
 
   extend type Mutation {

@@ -1,11 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
-import User from './user';
-import Chat from './chat';
 
 const { ObjectId }  = Schema.Types
 
 const messageSchema = new mongoose.Schema({
-  users: {
+  user: {
     type: ObjectId,
     ref: 'User',
   },
