@@ -1,5 +1,6 @@
 import Chat from "../models/chat"
 import User from '../models/user'
+import Message from '../models/message'
 
 export default {
   Mutation: {
@@ -26,6 +27,9 @@ export default {
     users: async (chat, args, ctx, info) => {
       await chat.populate('users').execPopulate()
       return chat.users
+    },
+    messages: async (chat, args, ctx, info) =>{
+      return await Message.find({chat: chat.id})
     }
   }
 }

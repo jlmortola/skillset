@@ -8,8 +8,8 @@ export default gql`
     body: String!,
   }
 
-  extend type Query {
-    message: Message!
+  extend type Mutation {
+    sendMessage(user: ID!, chat: ID!, body: String!): Message!
   }
 
 `
