@@ -8,8 +8,6 @@ import * as Auth from '../utils/auth'
 export default {
   Query: {
     me: async (parent, args, { req, res }, info) => {
-      console.log("req.userId", req.userId)
-      if(!req.userId) return new AuthenticationError('you must signin first')
       const user = await User.findById(req.userId)
       return user
     },

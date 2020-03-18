@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import express from 'express'
 import typeDefs from './schemas'
 import resolvers from './resolvers'
+import schemaDirectives from './directives'
 
 
 (()=> {
@@ -28,9 +29,15 @@ import resolvers from './resolvers'
     }
     next()
   })
-  const server = new ApolloServer({ typeDefs, resolvers, playground: true, context:({req, res})=>({req, res}) });
-  server.applyMiddleware({app}) 
 
+  const server = new ApolloServer({ 
+    typeDefs,
+    resolvers,
+    schemaDirectives,
+    playground: true,
+    context:({req, res})=>({req, res})
+  });
+  server.applyMiddleware({app}) 
 
   // The `listen` method launches a web server.
   app.listen({port: port},() => {
