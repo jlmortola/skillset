@@ -8,12 +8,12 @@ export default gql`
     author: User!
   }
 
-  type Query {
+  extend type Query {
     plan(id: ID!): Plan!
     plans: [Plan!]!
   }
 
-  type Mutation {
+  extend type Mutation {
     createPost(title: String!, content: String!): Plan!
   }
 `;

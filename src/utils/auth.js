@@ -18,6 +18,12 @@ export const signIn = async (email, password, res) => {
   return user
 }
 
+export const isSignedIn = (req) => req.userId
+
+export const ensureSignedIn = (req) => {
+  if(!isSignedIn(req)) throw new AuthenticationError('you must signin first')
+}
+
 export const setCookie = (id, res) => {
   const token = jwt.sign({userId: id}, process.env.APP_SECRET)
   res.cookie('token', token, { maxAge: 900000, httpOnly: false })
