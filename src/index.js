@@ -2,6 +2,8 @@ import { ApolloServer } from 'apollo-server-express'
 import cors from 'cors'
 import http from 'http'
 import cookie from 'cookie'
+import cookieParser from 'cookie-parser'
+
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
@@ -22,7 +24,7 @@ import schemaDirectives from './directives'
 
   app.disable('x-powered-by')
   
-  mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true});
+  mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopqology: true});
   mongoose.set('useFindAndModify', false);
   
   const validateToken = (token) => {
@@ -34,9 +36,13 @@ import schemaDirectives from './directives'
     credentials: true,
   }))
 
-  app.use((req, res, next) => {
-    const { token } = cookie.parse(req.headers.cookie)
-    if (token) req.userId = validateToken(token)
+  app.use(cookieParser())
+  app.use((req, res, next)=>{
+    const { token } = req.cookies
+    if (token) {
+      const { userId } = jwt.verify(token, process.env.APP_SECRET)
+      req.userId = userId
+    }
     next()
   })
 
