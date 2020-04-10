@@ -50,7 +50,8 @@ import schemaDirectives from './directives'
     typeDefs,
     resolvers,
     schemaDirectives,
-    playground: true,
+    playground: true,  
+    introspection: true,
     context: ({req, res, connection})=>({req, res, connection}),
     subscriptions: {
       onConnect: (connection, webSocket) => {
