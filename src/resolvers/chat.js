@@ -14,6 +14,10 @@ export default {
 
       users.push(req.userId)
 
+      const chatFound = await Chat.find({users: {'$eq': users}})
+
+      if (chatFound) return chatFound[0]
+
       const chat = await Chat.create({users})
 
       await User.updateMany({_id:{'$in': users}}, {
@@ -28,8 +32,13 @@ export default {
       await chat.populate('users').execPopulate()
       return chat.users
     },
-    messages: async (chat, args, ctx, info) =>{
+    messages: async (chat, args, ctx, info) => {
       return await Message.find({chat: chat.id})
+    },
+    lastMessage: async( chat, args, ctx, info) => {
+      await chat.populate('lastMessage').execPopulate()
+      return chat.lastMessage
+      // return (await chat.populate('lastMessage').execPopulate()).lastMessage
     }
   }
 }

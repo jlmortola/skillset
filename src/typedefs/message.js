@@ -9,7 +9,12 @@ export default gql`
   }
 
   extend type Mutation {
-    sendMessage(user: ID!, chat: ID!, body: String!): Message!
+    sendMessage(user: ID!, chat: ID!, body: String!): Message! @auth
+  }
+
+  extend type Subscription {
+    newMessage: Message!
+    updateUser: User! 
   }
 
 `
