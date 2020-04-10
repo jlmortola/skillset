@@ -19,6 +19,7 @@ import schemaDirectives from './directives'
   dotenv.config()
   const PORT = process.env.PORT
   const db = `mongodb://${process.env.MONGO_DB}`
+  
   app.disable('x-powered-by')
   
   mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true});
