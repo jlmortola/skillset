@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import express from 'express'
-import typedefs from './typedefs'
+import typeDefs from './typedefs'
 import resolvers from './resolvers'
 import schemaDirectives from './directives'
 
@@ -41,7 +41,7 @@ import schemaDirectives from './directives'
   })
 
   const server = new ApolloServer({ 
-    typedefs,
+    typeDefs,
     resolvers,
     schemaDirectives,
     playground: true,
