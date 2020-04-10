@@ -14,6 +14,10 @@ export default {
 
       users.push(req.userId)
 
+      const chatFound = await Chat.find({users: {'$eq': users}})
+
+      if (chatFound) return chatFound[0]
+
       const chat = await Chat.create({users})
 
       await User.updateMany({_id:{'$in': users}}, {

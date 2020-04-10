@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import express from 'express'
-import typeDefs from './schemas'
+import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import schemaDirectives from './directives'
 

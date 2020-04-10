@@ -1,4 +1,4 @@
-import { AuthenticationError, ApolloError } from 'apollo-server-express'
+import { ApolloError } from 'apollo-server-express'
 import {randomBytes} from 'crypto'
 import { promisify } from 'util'
 
@@ -8,11 +8,10 @@ import * as Auth from '../utils/auth'
 export default {
   Query: {
     me: async (parent, args, { req, res }, info) => {
-      const user = await User.findById(req.userId)
-      return user
+      return User.findById(req.userId)
     },
     user: (parent, args, ctx, info) => {
-      return  User.findOne({_id: args.id})
+      return User.findOne({_id: args.id})
     },
     users: ( parent, args, ctx, info ) => {
       return User.find({})
@@ -58,8 +57,6 @@ export default {
       return { message: 'You logged out'}
     },
     editUser: async(parent, args, { req, res }, info) => {
-      if(!req.userId) return new AuthenticationError('you must signin first')
-      if(!args.id) return
       const user = User.findOneAndUpdate({_id: args.id}, args,  function(err, result) {
         if (err) {
           return new ApolloError('error')
