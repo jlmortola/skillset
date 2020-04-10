@@ -12,4 +12,9 @@ export default gql`
     sendMessage(user: ID!, chat: ID!, body: String!): Message! @auth
   }
 
+  extend type Subscription {
+    newMessage: Message!
+    updateUser: User! 
+  }
+
 `
