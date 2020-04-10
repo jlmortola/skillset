@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import express from 'express'
-import typeDefs from './typeDefs'
+import typedefs from './typedefs'
 import resolvers from './resolvers'
 import schemaDirectives from './directives'
 
@@ -19,7 +19,7 @@ import schemaDirectives from './directives'
   dotenv.config()
   const PORT = process.env.PORT
   const db = `mongodb://${process.env.MONGO_DB}`
-  
+
   app.disable('x-powered-by')
   
   mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -41,7 +41,7 @@ import schemaDirectives from './directives'
   })
 
   const server = new ApolloServer({ 
-    typeDefs,
+    typedefs,
     resolvers,
     schemaDirectives,
     playground: true,
