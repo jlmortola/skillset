@@ -12,11 +12,7 @@ import typeDefs from './typedefs'
 import resolvers from './resolvers'
 import schemaDirectives from './directives'
 
-
-
-(() => {
-  
-  try { 
+const main = async () => {
   const app = express()
   dotenv.config()
   const PORT = process.env.PORT
@@ -74,10 +70,6 @@ import schemaDirectives from './directives'
   httpServer.listen({port: PORT},() => {
     console.log(`🚀  Server ready at http://localhost:${PORT}${server.graphqlPath}`);
   });
+}
 
-  } catch (e) {
-    console.log(e)
-  }
-
-
-}) ()
+main().catch(err => console.log(err))
